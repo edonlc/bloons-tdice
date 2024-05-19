@@ -64,8 +64,8 @@ public class BottomBar {
     }
 
     public BufferedImage getButtImg(int id) {
-       return playing.getTileManger().getSprite(id);
-    }
+		return playing.getTileManger().getSprite(id);
+	}
 
     public void draw(Graphics g) {
 
@@ -76,9 +76,6 @@ public class BottomBar {
         //botões
         drawButtons(g);
 
-        for(MyButton b : tileButtons){
-            b.draw(g); 
-        }
     }
 
     

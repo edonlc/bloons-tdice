@@ -25,6 +25,7 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
                     game.getMenu().mouseClicked(e.getX(), e.getY());
                     break;
             case PLAYING:
+                    game.getPlaying().mouseClicked(e.getX(), e.getY());
                     break;
             case SETTINGS:
 
@@ -51,6 +52,7 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
                 game.getMenu().mousePressed(e.getX(), e.getY());
                 break;
         case PLAYING:
+                game.getPlaying().mousePressed(e.getX(), e.getY());
                 break;
         case SETTINGS:
 
@@ -60,19 +62,22 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
     
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        switch(GameStates.gameState) {
-        case MENU:
-            game.getMenu().mouseReleased(e.getX(), e.getY());
-            break;
-        case PLAYING:
-            game.getPlaying().mouseMoved(e.getX(), e.getY());
-            break;
-        case SETTINGS:
-            game.getSettings().mouseMoved(e.getX(), e.getY());
-            break;
-        }
-    }
+	public void mouseReleased(MouseEvent e) {
+		switch (GameStates.gameState) {
+		case MENU:
+			game.getMenu().mouseReleased(e.getX(), e.getY());
+			break;
+		case PLAYING:
+			game.getPlaying().mouseReleased(e.getX(), e.getY());
+			break;
+		case SETTINGS:
+			game.getSettings().mouseReleased(e.getX(), e.getY());
+			break;
+		default:
+			break;
+
+		}
+	}
 
     @Override
     public void mouseDragged(MouseEvent e) {
