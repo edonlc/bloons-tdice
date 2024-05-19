@@ -22,9 +22,9 @@ public class TileManager {
 
     private void createTiles() {
 
-        tiles.add(WATER = new Tile(getSprite(1, 1)));
-        tiles.add(GRASS = new Tile(getSprite(1, 1)));
-        tiles.add(ROAD = new Tile(getSprite(2, 1)));
+        tiles.add(WATER = new Tile(getSprite(0, 1)));
+        tiles.add(GRASS = new Tile(getSprite(0, 0)));
+        tiles.add(ROAD = new Tile(getSprite(1, 0)));
     }
 
     private void loadAtalas() {

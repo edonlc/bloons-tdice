@@ -23,6 +23,7 @@ public class Game extends JFrame implements Runnable{
         setLocationRelativeTo(null);
 
         initClasses();
+        setResizable(false);
         add(gameScreen);
         pack();
         setVisible(true);
