@@ -5,8 +5,11 @@ import java.awt.Graphics;
 import helpz.LevelBuild;
 import main.Game;
 import managers.TileManager;
+import objects.Tile;
 import ui.BottomBar;
 import ui.MyButton;
+
+import static main.GameStates.*;
 
 
 public class Playing extends GameScene implements SceneMethods{
@@ -21,7 +24,7 @@ public class Playing extends GameScene implements SceneMethods{
 
         lvl = LevelBuild.getLevelData();
         tileManager = new TileManager();
-        bottomBar = new BottomBar(0, 640, 640, 100);
+        bottomBar = new BottomBar(0, 640, 640, 100, this);
     }
 
 
@@ -35,6 +38,10 @@ public class Playing extends GameScene implements SceneMethods{
 
         bottomBar.draw(g);
     }    
+
+	public TileManager getTileManger() {
+		return tileManager;
+	}
 
     @Override
     public void mouseClicked(int x, int y) {

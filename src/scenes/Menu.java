@@ -40,9 +40,9 @@ public class Menu extends GameScene implements SceneMethods {
 
     public void mouseClicked(int x, int y) {
         if (bPlaying.getBounds().contains(x, y)) {
-            setGameState(PLAYING);
+            SetGameState(PLAYING);
         } else if (bSettings.getBounds().contains(x, y)) {
-            setGameState(SETTINGS);
+            SetGameState(SETTINGS);
         } else if (bQuit.getBounds().contains(x, y)) {
             System.exit(0);
         }
