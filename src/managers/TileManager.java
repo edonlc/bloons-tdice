@@ -34,6 +34,10 @@ public class TileManager {
 
     }
 
+    public Tile getTile(int id) {
+        return tiles.get(id);
+    }
+
     public BufferedImage getSprite(int id){
         return tiles.get(id).getSprite();
     }

@@ -78,12 +78,23 @@ public class MyButton {
         this.mousePressed = false;
     }
 
-    public void setMouseOver (boolean mouseOver) {
-        this.mouseOver = mouseOver;
-    }
     public void setMousePressed (boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
+
+    public void setMouseOver (boolean mouseOver) {
+        this.mouseOver = mouseOver;
+    }
+
+
+    public boolean isMouseOver() {
+        return mouseOver;
+    }
+
+    public boolean isMousePressed() {
+        return mousePressed;
+    }
+        
 
     public Rectangle getBounds() {
         return bounds;
