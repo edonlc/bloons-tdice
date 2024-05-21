@@ -115,6 +115,7 @@ public class BottomBar {
             for(MyButton b : tileButtons) {
                 if(b.getBounds().contains(x, y)) {
                     selectedTile = playing.getTileManger().getTile(b.getId());
+                    playing.setSelectedTile(selectedTile);
                     return;
                 }
             }
