@@ -1,12 +1,6 @@
 package main;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 public class Render {
     
@@ -26,6 +20,11 @@ public class Render {
                 break;
             case SETTINGS:
                 game.getSettings().render(g);
+                break;
+            case EDITING:
+                game.getEditor().render(g);
+                break;
+            default:
                 break;
         }
     }

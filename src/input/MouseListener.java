@@ -22,45 +22,43 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
             
             switch(GameStates.gameState) {
             case MENU:
-                    game.getMenu().mouseClicked(e.getX(), e.getY());
-                    break;
+                game.getMenu().mouseClicked(e.getX(), e.getY());
+                break;
             case PLAYING:
-                    game.getPlaying().mouseClicked(e.getX(), e.getY());
-                    break;
+                game.getPlaying().mouseClicked(e.getX(), e.getY());
+                break;
             case SETTINGS:
-
-                    break;
+                game.getSettings().mouseClicked(e.getX(), e.getY());
+                break;
+            case EDITING:
+                game.getEditor().mouseClicked(e.getX(), e.getY());
+                break;
+            default:
+                break;
             }
         }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         switch(GameStates.gameState) {
         case MENU:
-                game.getMenu().mousePressed(e.getX(), e.getY());
-                break;
+            game.getMenu().mousePressed(e.getX(), e.getY());
+            break;
         case PLAYING:
-                game.getPlaying().mousePressed(e.getX(), e.getY());
-                break;
+            game.getPlaying().mousePressed(e.getX(), e.getY());
+            break;
         case SETTINGS:
-
-                break;
+            game.getSettings().mousePressed(e.getX(), e.getY());
+            break;
+        case EDITING:
+            game.getEditor().mousePressed(e.getX(), e.getY());
+            break;
+        default:
+            break;
         }
     }
     
-
     @Override
 	public void mouseReleased(MouseEvent e) {
 		switch (GameStates.gameState) {
@@ -73,6 +71,8 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
 		case SETTINGS:
 			game.getSettings().mouseReleased(e.getX(), e.getY());
 			break;
+        case EDITING:
+            game.getEditor().mouseReleased(e.getX(), e.getY());
 		default:
 			break;
 
@@ -91,6 +91,9 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
         case SETTINGS:
             game.getSettings().mouseDragged(e.getX(), e.getY());
             break;
+        case EDITING:
+            game.getEditor().mouseDragged(e.getX(), e.getY());
+            break;
         default:
             break;
         }
@@ -108,9 +111,19 @@ public class MouseListener implements MouseInputListener,MouseMotionListener{
         case SETTINGS:
             game.getSettings().mouseMoved(e.getX(), e.getY());
             break;
+        case EDITING:
+            game.getEditor().mouseMoved(e.getX(), e.getY());
         default:
             break;
         }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
 }
