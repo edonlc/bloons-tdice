@@ -2,6 +2,7 @@ package scenes;
 
 import java.awt.Graphics;
 
+import helpz.LoadSave;
 import main.Game;
 import ui.MyButton;
 import static main.GameStates.*;
@@ -17,7 +18,7 @@ public class Menu extends GameScene implements SceneMethods {
         int w = 150;
         int h = w/3;
         int x = 640 / 2 - w/2;
-        int y = 150;
+        int y = 300;
         int yOffset = 100;
 
         bPlaying = new MyButton("Jogar", x, y, w, h);
@@ -27,7 +28,12 @@ public class Menu extends GameScene implements SceneMethods {
     }
 
     public void render(Graphics g){
+        drawMenu(g);
         drawButtons(g);
+    }
+
+    private void drawMenu(Graphics g){
+        g.drawImage(LoadSave.getMenuSprite(), 0, 0, null);
     }
 
     private void drawButtons(Graphics g){
