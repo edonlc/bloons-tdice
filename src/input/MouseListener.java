@@ -8,7 +8,7 @@ import javax.swing.event.MouseInputListener;
 import main.Game;
 import main.GameStates;
 
-public class MouseListener implements MouseInputListener,MouseMotionListener{
+public class MouseListener implements MouseInputListener, MouseMotionListener{
 
     private Game game;
 
