@@ -1,26 +1,34 @@
 package input;
 
+import static main.GameStates.EDITING;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import main.Game;
+import main.GameStates;
+
 public class KeyboardListener implements KeyListener{
+
+    private Game game;
+
+    public KeyboardListener(Game game) {
+        this.game = game;    
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+        if (GameStates.gameState == EDITING) {
+            game.getEditor().keyPressed(e);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
 }
