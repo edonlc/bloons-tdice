@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import objects.PathPoint;
+
 public class LoadSave {
 
     public static BufferedImage getSpriteAtlas() {
@@ -53,25 +55,29 @@ public class LoadSave {
 
     }
 
-    private static void writeFile(File f, int[] idArr) {
+    private static void writeFile(File f, int[] idArr, PathPoint start, PathPoint end) {
 
         try {
             PrintWriter pw = new PrintWriter(f);
 
-            for (Integer i : idArr) {
+            for (Integer i : idArr) 
                 pw.println(i);
-            }
+            pw.println(start.getxCord());
+            pw.println(start.getyCord());
+            pw.println(end.getxCord());
+            pw.println(end.getyCord());
+
             pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public static void SaveLevel(String name, int[][] idArr) {
+    public static void SaveLevel(String name, int[][] idArr, PathPoint start, PathPoint end) {
         File levelFile = new File("arq/" + name + ".txt");
 
         if (levelFile.exists()) {
-            writeFile(levelFile, Utilz.matrixToVector(idArr));
+            writeFile(levelFile, Utilz.matrixToVector(idArr), start, end);
         } else {
             System.out.println("File: " + name + " does not exists!");
             return;
@@ -106,9 +112,25 @@ public class LoadSave {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            writeFile(newLevel, idArr);
+            writeFile(newLevel, idArr, new PathPoint(0, 0), new PathPoint(0, 0));
         }
     } 
+
+    public static ArrayList<PathPoint> getLevelPathPoints(String name) {
+        File lvlFile = new File("arq/" + name + ".txt");
+
+        if (lvlFile.exists()) {
+            ArrayList<Integer> list = readFile(lvlFile);
+            ArrayList<PathPoint> points = new ArrayList<>();
+            points.add(new PathPoint(list.get(400), list.get(401)));
+            points.add(new PathPoint(list.get(402), list.get(403)));
+
+            return points;
+        } else {
+            System.out.println("File: " + name + " does not exists!");
+            return null;
+        }
+    }
 
     public static int[][] getLevelData(String name) {
         File lvlFile = new File("arq/" + name + ".txt");

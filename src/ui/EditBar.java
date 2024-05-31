@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import helpz.LoadSave;
 import objects.Tile;
 import scenes.Editing;
 
@@ -17,20 +18,26 @@ public class EditBar extends Bar{
     private Editing editing;
 
     private MyButton bMenu, bSave;
+    private MyButton bPathStart, bPathEnd;
+    private BufferedImage pathStart, pathEnd;
     private Tile selectedTile;
-
-    //private ArrayList<MyButton> tileButtons = new ArrayList<>();
 
     private Map<MyButton, ArrayList<Tile>> map = new HashMap<MyButton, ArrayList<Tile>>();
 
-    private MyButton bGrass, bWater, bRoadS, bRoadC, bWaterL, bWaterC, bWaterLine;
+    private MyButton bGrass, bWater, bRoadS, bRoadC, bWaterL, bWaterC, bWaterLine, bWaterPath, bWaterPool;
     private MyButton currentButton;
     private int currentIndex = 0;
 
     public EditBar(int x, int y, int width, int height, Editing editing) {
         super(x, y, width, height);
         this.editing = editing;
+        initPathImgs();
         initButtons();
+    }
+
+    private void initPathImgs() {
+        pathStart = LoadSave.getSpriteAtlas().getSubimage(8 * 32, 0, 32, 32);
+        pathEnd = LoadSave.getSpriteAtlas().getSubimage(9 * 32, 0, 32, 32);
     }
 
     private void initButtons(){
@@ -57,8 +64,13 @@ public class EditBar extends Bar{
         initMapButton(bWaterC, editing.getGame().getTileManager().getWaterC(), xStart, yStart, xOffSet, w, h, i++);
 
         initMapButton(bWaterLine, editing.getGame().getTileManager().getWaterLines(), xStart, yStart, xOffSet, w, h, i++);
-
         
+        initMapButton(bWaterPath, editing.getGame().getTileManager().getWaterPath(), xStart, yStart + xOffSet, xOffSet, w, h, 0);
+
+        bWaterPool = new MyButton("Water Pool", xStart + xOffSet, yStart + xOffSet, w, h, 22);
+
+        bPathStart = new MyButton("PathStart", xStart + (xOffSet * 2), yStart + xOffSet, w, h, i++);
+        bPathEnd = new MyButton("PathEnd", xStart + (xOffSet * 3), yStart + xOffSet, w, h, i++);
     }
 
     private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id) {
@@ -93,10 +105,19 @@ public class EditBar extends Bar{
         bMenu.draw(g);
         bSave.draw(g);
 
+        drawPathButton(g, bPathStart, pathStart);
+        drawPathButton(g, bPathEnd, pathEnd);
+
         drawNormalButtons(g, bWater);
         drawNormalButtons(g, bGrass);
+        drawNormalButtons(g, bWaterPool);
         drawSelectedTile(g);
         drawMapButtons(g);
+    }
+
+    private void drawPathButton(Graphics g, MyButton b, BufferedImage img) {
+        g.drawImage(img, b.x, b.y, b.width, b.height, null);
+        drawButtonFeedback(g, b);
     }
     
     private void drawNormalButtons(Graphics g, MyButton b) {
@@ -143,10 +164,6 @@ public class EditBar extends Bar{
         }
     }
 
-    public BufferedImage getButtImg(int id) {
-		return editing.getGame().getTileManager().getSprite(id);
-	}
-
     public void mouseClicked(int x, int y) {
 		if (bMenu.getBounds().contains(x, y))
 			SetGameState(MENU);
@@ -160,6 +177,16 @@ public class EditBar extends Bar{
             selectedTile = editing.getGame().getTileManager().getTile(bGrass.getId());
             editing.setSelectedTile(selectedTile);
             return;
+        } else if (bWaterPool.getBounds().contains(x, y)) {
+            selectedTile = editing.getGame().getTileManager().getTile(bWaterPool.getId());
+            editing.setSelectedTile(selectedTile);
+            return;
+        } else if (bPathStart.getBounds().contains(x, y)) {
+            selectedTile = new Tile(pathStart, -1, -1);
+            editing.setSelectedTile(selectedTile);
+        } else if (bPathEnd.getBounds().contains(x, y)) {
+            selectedTile = new Tile(pathEnd, -2, -2);
+            editing.setSelectedTile(selectedTile);
         } else {
             for (MyButton b : map.keySet()) {
                 if(b.getBounds().contains(x, y)) {
@@ -178,6 +205,9 @@ public class EditBar extends Bar{
         bSave.setMouseOver(false);
         bWater.setMouseOver(false);
         bGrass.setMouseOver(false);
+        bWaterPool.setMouseOver(false);
+        bPathStart.setMouseOver(false);
+        bPathEnd.setMouseOver(false);
         for(MyButton b : map.keySet())
             b.setMouseOver(false);
 
@@ -189,6 +219,12 @@ public class EditBar extends Bar{
             bWater.setMouseOver(true);
         else if (bGrass.getBounds().contains(x, y))
             bGrass.setMouseOver(true);
+        else if (bWaterPool.getBounds().contains(x, y))
+            bWaterPool.setMouseOver(true);
+        else if (bPathStart.getBounds().contains(x, y))
+            bPathStart.setMouseOver(true);
+        else if (bPathEnd.getBounds().contains(x, y))
+            bPathEnd.setMouseOver(true);
         else {
             for(MyButton b : map.keySet()){
                 if(b.getBounds().contains(x, y)) {
@@ -208,6 +244,12 @@ public class EditBar extends Bar{
             bWater.setMousePressed(true);
         else if (bGrass.getBounds().contains(x, y))
             bGrass.setMousePressed(true);
+        else if (bWaterPool.getBounds().contains(x, y))
+            bWaterPool.setMousePressed(true);
+        else if (bPathStart.getBounds().contains(x, y))
+            bPathStart.setMousePressed(true);
+        else if (bPathEnd.getBounds().contains(x, y))
+            bPathEnd.setMousePressed(true);
         else {
             for(MyButton b : map.keySet()) {
                 if(b.getBounds().contains(x, y)) {
@@ -223,8 +265,23 @@ public class EditBar extends Bar{
         bSave.resetBooleans();
         bWater.resetBooleans();
         bGrass.resetBooleans();
+        bWaterPool.resetBooleans();
+        bPathStart.resetBooleans();
+        bPathEnd.resetBooleans();
         for(MyButton b : map.keySet())
             b.resetBooleans();
+    }
+
+    public BufferedImage getButtImg(int id) {
+		return editing.getGame().getTileManager().getSprite(id);
+	}
+
+    public BufferedImage getStartPathImg() {
+        return pathStart;
+    }
+
+    public BufferedImage getEndPathImg() {
+        return pathEnd;
     }
 
 }

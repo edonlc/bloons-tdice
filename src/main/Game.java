@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 
 import helpz.LoadSave;
 import managers.TileManager;
-import objects.Tile;
 import scenes.Editing;
 import scenes.Menu;
 import scenes.Playing;

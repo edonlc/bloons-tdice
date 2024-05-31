@@ -3,11 +3,15 @@ package scenes;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import helpz.LoadSave;
 import main.Game;
+import objects.PathPoint;
 import objects.Tile;
 import ui.EditBar;
+
+import static helpz.Constants.Tiles.ROAD_TILE;
 
 public class Editing extends GameScene implements SceneMethods{
 
@@ -17,15 +21,19 @@ public class Editing extends GameScene implements SceneMethods{
     private int lastTileX, lastTileY, lastTileId;
     private boolean drawSelect;
     private EditBar editbar;
+    private PathPoint start, end;
 
     public Editing(Game game) {
         super(game);
         loadDefaultLevel();
-        editbar = new EditBar(0, 640, 640, 100, this);
+        editbar = new EditBar(0, 640, 640, 160, this);
     }
 
     private void loadDefaultLevel() {
         lvl = LoadSave.getLevelData("new_level");
+        ArrayList<PathPoint> points = LoadSave.getLevelPathPoints("new_level");
+        start = points.get(0);
+        end = points.get(1);
     }
 
     @Override
@@ -33,6 +41,17 @@ public class Editing extends GameScene implements SceneMethods{
         drawLevel(g);
         editbar.draw(g);
         drawSelectedTile(g);
+        drawPathPoints(g);
+    }
+
+    private void drawPathPoints(Graphics g) {
+        if (start != null) {
+            g.drawImage(editbar.getStartPathImg(), start.getxCord()*32, start.getyCord()*32, 32, 32, null);
+        }  
+
+        if (end != null) {
+            g.drawImage(editbar.getEndPathImg(), end.getxCord()*32, end.getyCord()*32, 32, 32, null);
+        }
     }
 
     private void drawLevel(Graphics g) {
@@ -45,12 +64,12 @@ public class Editing extends GameScene implements SceneMethods{
     }
 
     private BufferedImage getSprite(int spriteId) {
-        return getGame().getTileManager().getSprite(spriteId);
+        return game.getTileManager().getSprite(spriteId);
     }
 
     public void saveLevel() {
-        LoadSave.SaveLevel("new_level", lvl);
-        getGame().getPlaying().setLevel(lvl);
+        LoadSave.SaveLevel("new_level", lvl, start, end);
+        game.getPlaying().setLevel(lvl);
     }
 
 	private void drawSelectedTile(Graphics g) {
@@ -68,13 +87,23 @@ public class Editing extends GameScene implements SceneMethods{
         if(selectedTile != null) {
             int tileX = x / 32;
             int tileY = y / 32;
-            if(lastTileX == tileX &&lastTileY == tileY && lastTileId == selectedTile.getId())
-                return;
-            
-            lastTileX = tileX;
-            lastTileY = tileY;
+            if(selectedTile.getId() >= 0) {
+                if(lastTileX == tileX &&lastTileY == tileY && lastTileId == selectedTile.getId())
+                    return;
+                
+                lastTileX = tileX;
+                lastTileY = tileY;
 
-            lvl[tileY][tileX] = selectedTile.getId();
+                lvl[tileY][tileX] = selectedTile.getId();
+            } else {
+                int id = lvl[tileY][tileX];
+                if (game.getTileManager().getTile(id).getTileType() == ROAD_TILE) {
+                    if(selectedTile.getId() == -1)
+                        start = new PathPoint(tileX, tileY);
+                    else
+                        end = new PathPoint(tileX, tileY);
+                }
+            }
         }
     }
 
