@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.TowerManager;
 import objects.PathPoint;
+import objects.Tower;
 import ui.GameBar;
 
 
@@ -17,7 +19,9 @@ public class Playing extends GameScene implements SceneMethods{
     private GameBar bottomBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
+    private TowerManager towerManager;
     private PathPoint start, end;
+    private Tower selectedTower;
 
     public Playing(Game game) {
         super(game);
@@ -26,6 +30,7 @@ public class Playing extends GameScene implements SceneMethods{
         bottomBar = new GameBar(0, 640, 640, 160, this);
 
         enemyManager = new EnemyManager(this, start, end);
+        towerManager = new TowerManager(this);
 
     }
 
@@ -43,6 +48,11 @@ public class Playing extends GameScene implements SceneMethods{
 
     public void update(){
         enemyManager.update();
+        towerManager.update();
+    }
+
+    public void setSelectedTower(Tower selectedTower) {
+        this.selectedTower = selectedTower;
     }
 
     public void render(Graphics g){
@@ -50,7 +60,15 @@ public class Playing extends GameScene implements SceneMethods{
 
         bottomBar.draw(g);
         enemyManager.draw(g);
+        towerManager.draw(g);
+        drawSelectedTower(g);
     }    
+
+    private void drawSelectedTower(Graphics g) {
+        if (selectedTower != null)
+            g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()], mouseX, mouseY, null);
+    }
+
 
     private void drawLevel(Graphics g) {
         for (int y = 0; y < lvl.length; y++) {
@@ -83,6 +101,12 @@ public class Playing extends GameScene implements SceneMethods{
     public void mouseClicked(int x, int y) {
         if(y >= 640) 
             bottomBar.mouseClicked(x, y);
+        else {
+            if (selectedTower != null) {
+                towerManager.addTower(selectedTower, mouseX, mouseY);
+                selectedTower = null;
+            }
+        }
     }
     
 
@@ -114,5 +138,12 @@ public class Playing extends GameScene implements SceneMethods{
     @Override
     public void mouseDragged(int x, int y) {
     }
+
+    public TowerManager getTowerManager() {
+        return towerManager;
+    }
+
+
+
 
 }
