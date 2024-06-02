@@ -1,5 +1,7 @@
 package scenes;
 
+import static helpz.Constants.Tiles.GRASS_TILE;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import managers.TowerManager;
 import objects.PathPoint;
 import objects.Tower;
 import ui.GameBar;
+import static helpz.Constants.Tiles.GRASS_TILE;
 
 
 public class Playing extends GameScene implements SceneMethods{
@@ -103,12 +106,32 @@ public class Playing extends GameScene implements SceneMethods{
             bottomBar.mouseClicked(x, y);
         else {
             if (selectedTower != null) {
-                towerManager.addTower(selectedTower, mouseX, mouseY);
-                selectedTower = null;
+                if(isTileGrass(mouseX, mouseY)) {
+                    if(getTowerAt(mouseX, mouseY) == null) {
+                        towerManager.addTower(selectedTower, mouseX, mouseY);
+                        selectedTower = null;
+                    }
+                }
+
+            } else {
+                Tower t = getTowerAt(mouseX, mouseY);
+                bottomBar.displayTower(t);
             }
         }
     }
     
+
+    private Tower getTowerAt(int x, int y) {
+        return towerManager.getTowerAt(x, y);
+    }
+
+
+    private boolean isTileGrass(int x, int y) {
+        int id = lvl[y / 32][x / 32];
+        int tileType = game.getTileManager().getTile(id).getTileType();
+        return tileType == GRASS_TILE;
+    }
+
 
     @Override
     public void mouseMoved(int x, int y) {

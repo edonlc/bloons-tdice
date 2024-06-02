@@ -28,6 +28,7 @@ public class EnemyManager {
         this.start = start;
         this.end = end;
         addEnemy(RED);
+        addEnemy(BLUE);
         loadEnemyImgs();
     }
 

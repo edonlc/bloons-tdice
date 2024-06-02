@@ -37,7 +37,7 @@ public class Tower {
     }
 
     public int getTowerType() {
-        return x;
+        return towerType;
     }
 
     public void setTowerType(int towerType) {

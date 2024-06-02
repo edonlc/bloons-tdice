@@ -4,8 +4,10 @@ import static main.GameStates.MENU;
 import static main.GameStates.SetGameState;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
+import helpz.Constants.Towers;
 import objects.Tower;
 import scenes.Playing;
 
@@ -18,6 +20,8 @@ public class GameBar extends Bar{
     private MyButton[] towerButtons;
 
     private Tower selectedTower;
+
+    private Tower displayedTower;
 
     public GameBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
@@ -63,6 +67,25 @@ public class GameBar extends Bar{
         //botões
         drawButtons(g);
 
+        // display das torres
+        drawDisplayedTower(g);
+    }
+
+    private void drawDisplayedTower(Graphics g) {
+        if(displayedTower != null) {
+            g.setColor(Color.getHSBColor(37, 62, 79));
+            g.fillRect(410, 645, 220, 85);
+            g.setColor(Color.black);
+            g.drawRect(410, 645, 220, 85);
+            g.drawRect(420, 650, 50, 50);
+            g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()], 420, 650, 50, 50, null);
+            g.setFont(new Font("LucidaSans", Font.BOLD, 15));
+            g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 490, 660);
+        }
+    }
+
+    public void displayTower(Tower t) {
+        displayedTower = t;
     }
     
 	public void mouseClicked(int x, int y) {

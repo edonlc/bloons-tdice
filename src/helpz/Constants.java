@@ -33,6 +33,18 @@ public class Constants {
         public static final int DART_MONKEY = 0;
         public static final int ICE_MONKEY = 1;
         public static final int TACK_SHOOTER = 2;
+
+        public static String GetName(int TowerType) {
+            switch (TowerType) {
+            case DART_MONKEY:
+                return "Dart Monkey";
+            case ICE_MONKEY:
+                return "Ice Monkey";
+            case TACK_SHOOTER:
+                return "Tack Shooter";
+            }
+            return "";
+        }
     }
 
 }
