@@ -21,6 +21,16 @@ public class Constants {
             }
             return 0;
         }
+
+        public static int GetStartHealth(int enemyType) {
+            switch (enemyType) {
+                case RED:
+                    return 10;
+                case BLUE:
+                    return 20;
+            }
+            return 0;
+        }
     }
 
     public static class Tiles {
@@ -34,8 +44,8 @@ public class Constants {
         public static final int ICE_MONKEY = 1;
         public static final int TACK_SHOOTER = 2;
 
-        public static String GetName(int TowerType) {
-            switch (TowerType) {
+        public static String GetName(int towerType) {
+            switch (towerType) {
             case DART_MONKEY:
                 return "Dart Monkey";
             case ICE_MONKEY:
@@ -44,6 +54,49 @@ public class Constants {
                 return "Tack Shooter";
             }
             return "";
+        }
+
+        public static float GetDefaultDmg(int towerType) {
+
+            switch (towerType) {
+                case DART_MONKEY:
+                    return 10;
+                case ICE_MONKEY:
+                    return 5;
+                case TACK_SHOOTER:
+                    return 20;
+                }
+
+                return 0;
+        }
+
+        public static float GetDefaultRange(int towerType) {
+
+            switch (towerType) {
+                case DART_MONKEY:
+                    return 100;
+                case ICE_MONKEY:
+                    return 100;
+                case TACK_SHOOTER:
+                    return 100;
+                }
+
+                return 0;
+        }
+
+        public static float GetDefaultCooldown(int towerType) {
+
+            switch (towerType) {
+                case DART_MONKEY:
+                    return 10;
+                case ICE_MONKEY:
+                    return 10;
+                case TACK_SHOOTER:
+                    return 10;
+                }
+
+                return 0;
+
         }
     }
 

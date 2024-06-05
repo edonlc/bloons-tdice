@@ -79,9 +79,15 @@ public class GameBar extends Bar{
             g.drawRect(410, 645, 220, 85);
             g.drawRect(420, 650, 50, 50);
             g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()], 420, 650, 50, 50, null);
-            g.setFont(new Font("LucidaSans", Font.BOLD, 15));
+            g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
             g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 490, 660);
+            drawDisplayedTowerRange(g);
         }
+    }
+
+    private void drawDisplayedTowerRange(Graphics g) {
+        g.setColor(Color.white);
+        g.drawOval(displayedTower.getX() + 16 - (int) displayedTower.getRange()/2, displayedTower.getY() + 16 - (int) displayedTower.getRange()/2, (int) displayedTower.getRange(), (int) displayedTower.getRange());
     }
 
     public void displayTower(Tower t) {
