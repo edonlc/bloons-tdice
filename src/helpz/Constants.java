@@ -41,17 +41,29 @@ public class Constants {
 
     public static class Towers {
         public static final int DART_MONKEY = 0;
-        public static final int ICE_MONKEY = 1;
-        public static final int TACK_SHOOTER = 2;
+        public static final int DART_MONKEY_LV2 = 1;
+        public static final int DART_MONKEY_LV3 = 2;
+        public static final int ICE_MONKEY = 3;
+        public static final int ICE_MONKEY_LV2 = 4;
+        public static final int ICE_MONKEY_LV3 = 5;
+        public static final int TACK_SHOOTER = 6;
 
         public static String GetName(int towerType) {
             switch (towerType) {
             case DART_MONKEY:
-                return "Dart Monkey";
+                return "Dart Monkey - LVL 1";
+            case DART_MONKEY_LV2:
+                return "Dart Monkey - LVL 2";
+            case DART_MONKEY_LV3:
+                return "Dart Monkey - LVL 3";
             case ICE_MONKEY:
-                return "Ice Monkey";
+                return "Ice Monkey - LVL 1";
+            case ICE_MONKEY_LV2:
+                return "Ice Monkey - LVL 2";
+            case ICE_MONKEY_LV3:
+                return "Ice Monkey - LVL 3";
             case TACK_SHOOTER:
-                return "Tack Shooter";
+                return "Tack Shooter - LVL 1";
             }
             return "";
         }
@@ -61,8 +73,16 @@ public class Constants {
             switch (towerType) {
                 case DART_MONKEY:
                     return 10;
+                case DART_MONKEY_LV2:
+                    return 20;
+                case DART_MONKEY_LV3:
+                    return 30;
                 case ICE_MONKEY:
-                    return 5;
+                    return 1;
+                case ICE_MONKEY_LV2:
+                    return 1;
+                case ICE_MONKEY_LV3:
+                    return 1;
                 case TACK_SHOOTER:
                     return 20;
                 }
@@ -75,8 +95,16 @@ public class Constants {
             switch (towerType) {
                 case DART_MONKEY:
                     return 100;
+                case DART_MONKEY_LV2:
+                    return 150;
+                case DART_MONKEY_LV3:
+                    return 200;
                 case ICE_MONKEY:
                     return 100;
+                case ICE_MONKEY_LV2:
+                    return 150;
+                case ICE_MONKEY_LV3:
+                    return 200;
                 case TACK_SHOOTER:
                     return 100;
                 }
@@ -89,8 +117,16 @@ public class Constants {
             switch (towerType) {
                 case DART_MONKEY:
                     return 10;
+                case DART_MONKEY_LV2:
+                    return 7;
+                case DART_MONKEY_LV3:
+                    return 5;
                 case ICE_MONKEY:
                     return 10;
+                case ICE_MONKEY_LV2:
+                    return 7;
+                case ICE_MONKEY_LV3:
+                    return 5;
                 case TACK_SHOOTER:
                     return 10;
                 }
