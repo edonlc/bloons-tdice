@@ -51,24 +51,24 @@ public class Constants {
         public static String GetName(int towerType) {
             switch (towerType) {
             case DART_MONKEY:
-                return "Dart Monkey - LVL 1";
+                return "Dart Monkey - 1";
             case DART_MONKEY_LV2:
-                return "Dart Monkey - LVL 2";
+                return "Dart Monkey - 2";
             case DART_MONKEY_LV3:
-                return "Dart Monkey - LVL 3";
+                return "Dart Monkey - 3";
             case ICE_MONKEY:
-                return "Ice Monkey - LVL 1";
+                return "Ice Monkey - 1";
             case ICE_MONKEY_LV2:
-                return "Ice Monkey - LVL 2";
+                return "Ice Monkey - 2";
             case ICE_MONKEY_LV3:
-                return "Ice Monkey - LVL 3";
+                return "Ice Monkey - 3";
             case TACK_SHOOTER:
-                return "Tack Shooter - LVL 1";
+                return "Tack Shooter - 1";
             }
             return "";
         }
 
-        public static float GetDefaultDmg(int towerType) {
+        public static int GetDefaultDmg(int towerType) {
 
             switch (towerType) {
                 case DART_MONKEY:
@@ -94,11 +94,11 @@ public class Constants {
 
             switch (towerType) {
                 case DART_MONKEY:
-                    return 100;
+                    return 50;
                 case DART_MONKEY_LV2:
-                    return 150;
+                    return 75;
                 case DART_MONKEY_LV3:
-                    return 200;
+                    return 100;
                 case ICE_MONKEY:
                     return 100;
                 case ICE_MONKEY_LV2:
@@ -116,11 +116,11 @@ public class Constants {
 
             switch (towerType) {
                 case DART_MONKEY:
-                    return 10;
+                    return 40;
                 case DART_MONKEY_LV2:
-                    return 7;
+                    return 30;
                 case DART_MONKEY_LV3:
-                    return 5;
+                    return 20;
                 case ICE_MONKEY:
                     return 10;
                 case ICE_MONKEY_LV2:
@@ -133,6 +133,24 @@ public class Constants {
 
                 return 0;
 
+        }
+    }
+
+    public static class Projectiles{
+        public static final int DART = 0;
+        public static final int ICE = 1;
+        public static final int TACK = 2;
+
+        public static float getSpeed(int type) {
+            switch (type) {
+            case DART:
+                return 3f;
+            case ICE:
+                return 2f;
+            case TACK:
+                return 1f;
+            }
+            return 0f;
         }
     }
 

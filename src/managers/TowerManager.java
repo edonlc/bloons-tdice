@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.tools.ToolProvider;
 
+import enemies.Enemy;
 import helpz.LoadSave;
 import objects.Tower;
 
@@ -28,7 +29,7 @@ public class TowerManager {
 
     private void loadTowerImgs() {
         BufferedImage atlas = LoadSave.getSpriteAtlas();
-        towerImgs = new BufferedImage[3];
+        towerImgs = new BufferedImage[7];
         towerImgs[0] = atlas.getSubimage(3 * 32, 0, 32, 32);
         towerImgs[1] = atlas.getSubimage(4 * 32, 0, 32, 32);
         towerImgs[2] = atlas.getSubimage(5 * 32, 0, 32, 32);
@@ -43,7 +44,31 @@ public class TowerManager {
     }
 
     public void update() {
-        
+        for (Tower t : towers) {
+            t.update();
+            attackIfClose(t);
+        }
+    }
+
+    private void attackIfClose(Tower t) {
+        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+            if (e.isAlive())
+                if (isEnemyInRange(t,e)) {
+                    if (t.isCooldownOver()) {
+                        playing.shootEnemy(t, e);
+                        t.resetCooldown();
+                    }
+                } else {
+                    
+                }
+        }
+    
+    }
+
+    private boolean isEnemyInRange(Tower t, Enemy e) {
+        int range = helpz.Utilz.getPitagoras(t.getX(), t.getY(), e.getX(), e.getY());
+
+        return range < t.getRange();
     }
 
     public void draw(Graphics g) {

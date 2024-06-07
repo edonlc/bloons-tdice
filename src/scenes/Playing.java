@@ -7,10 +7,12 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import enemies.Enemy;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
 import managers.TowerManager;
+import managers.ProjectileManager;
 import objects.PathPoint;
 import objects.Tower;
 import ui.GameBar;
@@ -24,6 +26,7 @@ public class Playing extends GameScene implements SceneMethods{
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
     private TowerManager towerManager;
+    private ProjectileManager projectileManager;
     private PathPoint start, end;
     private Tower selectedTower;
 
@@ -35,6 +38,7 @@ public class Playing extends GameScene implements SceneMethods{
 
         enemyManager = new EnemyManager(this, start, end);
         towerManager = new TowerManager(this);
+        projectileManager = new ProjectileManager(this);
 
     }
 
@@ -53,6 +57,7 @@ public class Playing extends GameScene implements SceneMethods{
     public void update(){
         enemyManager.update();
         towerManager.update();
+        projectileManager.update();
     }
 
     public void setSelectedTower(Tower selectedTower) {
@@ -65,6 +70,7 @@ public class Playing extends GameScene implements SceneMethods{
         bottomBar.draw(g);
         enemyManager.draw(g);
         towerManager.draw(g);
+        projectileManager.draw(g);
         drawSelectedTower(g);
     }    
 
@@ -133,6 +139,10 @@ public class Playing extends GameScene implements SceneMethods{
         return tileType == GRASS_TILE;
     }
 
+    public void shootEnemy(Tower t, Enemy e) {
+        projectileManager.newProjectile(t, e);
+    }
+
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             selectedTower = null;
@@ -172,7 +182,8 @@ public class Playing extends GameScene implements SceneMethods{
         return towerManager;
     }
 
-
-
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
 
 }
