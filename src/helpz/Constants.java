@@ -41,12 +41,12 @@ public class Constants {
 
     public static class Towers {
         public static final int DART_MONKEY = 0;
-        public static final int DART_MONKEY_LV2 = 1;
-        public static final int DART_MONKEY_LV3 = 2;
-        public static final int ICE_MONKEY = 3;
+        public static final int ICE_MONKEY = 1;
+        public static final int TACK_SHOOTER = 2;
+        public static final int DART_MONKEY_LV2 = 3;
         public static final int ICE_MONKEY_LV2 = 4;
-        public static final int ICE_MONKEY_LV3 = 5;
-        public static final int TACK_SHOOTER = 6;
+        public static final int DART_MONKEY_LV3 = 5;
+        public static final int ICE_MONKEY_LV3 = 6;
 
         public static String GetName(int towerType) {
             switch (towerType) {
