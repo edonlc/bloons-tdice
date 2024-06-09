@@ -20,20 +20,27 @@ public class EnemyManager {
     private Playing playing;
     private BufferedImage[] enemyImgs;
     private ArrayList<Enemy> enemies = new ArrayList<>();
-    //private float speed = 0.5f;
     private PathPoint start, end;
     private int HPbarWidth = 20;
+    private BufferedImage slowEffect;
 
     public EnemyManager(Playing playing, PathPoint start, PathPoint end) {
         this.playing = playing;
         enemyImgs = new BufferedImage[2];
         this.start = start;
         this.end = end;
+
+        loadSlowEffectImg();
+        
         addEnemy(RED);
         addEnemy(BLUE);
         loadEnemyImgs();
+
     }
 
+    private void loadSlowEffectImg() {
+        slowEffect = LoadSave.getSpriteAtlas().getSubimage(32*8, 32*1, 32, 32);
+    }
     private void loadEnemyImgs() {
         BufferedImage atlas = LoadSave.getSpriteAtlas();
 
@@ -154,9 +161,16 @@ public class EnemyManager {
             if (e.isAlive()) {
                 drawEnemy(e, g);
                 drawHealthBar(e, g);
+                drawEffects(e, g);
             }
         }
         
+    }
+
+    private void drawEffects(Enemy e, Graphics g) {
+        if (e.isSlowed()) {
+            g.drawImage(slowEffect, (int)e.getX(), (int)e.getY(), null);
+        }
     }
 
     private void drawHealthBar(Enemy e, Graphics g) {

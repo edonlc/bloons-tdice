@@ -86,9 +86,12 @@ public class ProjectileManager {
 
     private boolean isProjectileHittingEnemy(Projectile p) {
         for (Enemy e : playing.getEnemyManager().getEnemies()) {
-            if(e.getBounds().contains(p.getPos())) {
-                e.damage(p.getDmg()); 
-                return true;
+            if (e.isAlive())
+                if(e.getBounds().contains(p.getPos())) {
+                    e.damage(p.getDmg()); 
+                    if(p.getProjectileType() == ICE)
+                        e.slow();
+                    return true;
             }
         }
         return false;
