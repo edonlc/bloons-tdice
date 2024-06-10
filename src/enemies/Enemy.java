@@ -6,6 +6,7 @@ import java.io.Serializable;
 import static helpz.Constants.Direction.*;
 
 public abstract class Enemy implements Serializable{
+    private static final long serialVersionUID = 1L;
     protected float x, y;
     protected Rectangle bounds;
     protected int health;
@@ -36,6 +37,11 @@ public abstract class Enemy implements Serializable{
         this.health -= dmg;
         if (health <= 0)
             alive = false;
+    }
+
+    public void kill() {
+        this.health = 0;
+        alive = false;
     }
 
     public void slow() {

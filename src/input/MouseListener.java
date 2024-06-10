@@ -27,9 +27,6 @@ public class MouseListener implements MouseInputListener, MouseMotionListener{
             case PLAYING:
                 game.getPlaying().mouseClicked(e.getX(), e.getY());
                 break;
-            case SETTINGS:
-                game.getSettings().mouseClicked(e.getX(), e.getY());
-                break;
             case EDITING:
                 game.getEditor().mouseClicked(e.getX(), e.getY());
                 break;
@@ -48,9 +45,6 @@ public class MouseListener implements MouseInputListener, MouseMotionListener{
         case PLAYING:
             game.getPlaying().mousePressed(e.getX(), e.getY());
             break;
-        case SETTINGS:
-            game.getSettings().mousePressed(e.getX(), e.getY());
-            break;
         case EDITING:
             game.getEditor().mousePressed(e.getX(), e.getY());
             break;
@@ -67,9 +61,6 @@ public class MouseListener implements MouseInputListener, MouseMotionListener{
 			break;
 		case PLAYING:
 			game.getPlaying().mouseReleased(e.getX(), e.getY());
-			break;
-		case SETTINGS:
-			game.getSettings().mouseReleased(e.getX(), e.getY());
 			break;
         case EDITING:
             game.getEditor().mouseReleased(e.getX(), e.getY());
@@ -88,9 +79,6 @@ public class MouseListener implements MouseInputListener, MouseMotionListener{
         case PLAYING:
             game.getPlaying().mouseDragged(e.getX(), e.getY());
             break;
-        case SETTINGS:
-            game.getSettings().mouseDragged(e.getX(), e.getY());
-            break;
         case EDITING:
             game.getEditor().mouseDragged(e.getX(), e.getY());
             break;
@@ -107,9 +95,6 @@ public class MouseListener implements MouseInputListener, MouseMotionListener{
             break;
         case PLAYING:
             game.getPlaying().mouseMoved(e.getX(), e.getY());
-            break;
-        case SETTINGS:
-            game.getSettings().mouseMoved(e.getX(), e.getY());
             break;
         case EDITING:
             game.getEditor().mouseMoved(e.getX(), e.getY());

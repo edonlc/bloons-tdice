@@ -86,6 +86,7 @@ public class EnemyManager {
         if (getTileType(newX, newY) == ROAD_TILE) {
             e.move(GetSpeed(e.getEnemyType()), e.getLastDir());
         } else if (isAtEnd(e)) {
+            e.kill();
             System.out.println("-1 Vida");
         } else {
             setNewDirectionAndMove(e);

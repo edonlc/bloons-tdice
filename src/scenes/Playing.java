@@ -43,7 +43,7 @@ public class Playing extends GameScene implements SceneMethods{
         towerManager = new TowerManager(this);
         waveManager = new WaveManager(this);
         projectileManager = new ProjectileManager(this);
-        //createWaveFile("1.wave");
+        createWaveFile("1.wave");
     }
 
 
