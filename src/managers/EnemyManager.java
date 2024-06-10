@@ -32,8 +32,6 @@ public class EnemyManager {
 
         loadSlowEffectImg();
         
-        addEnemy(RED);
-        addEnemy(BLUE);
         loadEnemyImgs();
 
     }
@@ -50,9 +48,31 @@ public class EnemyManager {
     }
 
     public void update() {
+
+        updateWaveManager();
+        if(isTimeForNewEnemy()) {
+            spawnEnemy();
+        }
+
         for (Enemy e : enemies)
             if (e.isAlive())
                 updateEnemyMove(e);
+    }
+
+    private void updateWaveManager() {
+        playing.getWaveManager().update();
+    }
+
+    private void spawnEnemy() {
+        addEnemy(playing.getWaveManager().getNextEnemy());
+    }
+
+    private boolean isTimeForNewEnemy() {
+        if(playing.getWaveManager().isTimeForNewEnemy()) {
+            if(playing.getWaveManager().isThereMoreEnemies())
+                return true;
+        }
+        return false;
     }
 
     public void updateEnemyMove(Enemy e) {
@@ -142,18 +162,9 @@ public class EnemyManager {
         return 0;
     }
 
-    public void addEnemy(int enemyType) {
-
-        int x = start.getxCord() * 32;
-        int y = start.getyCord() * 32;
-        switch (enemyType) {
-        case RED:
-            enemies.add(new Red(x, y,0));
-            break;
-        case BLUE:
-            enemies.add(new Blue(x, y, 1));
-            break;
-        }
+    public void addEnemy(Enemy enemy) {
+        enemy.setPos(start.getxCord() * 32, start.getyCord() * 32);
+        enemies.add(enemy);
     }
 
     public void draw(Graphics g) {

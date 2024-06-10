@@ -5,6 +5,7 @@ import static helpz.Constants.Tiles.GRASS_TILE;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import enemies.Enemy;
@@ -12,11 +13,12 @@ import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
 import managers.TowerManager;
+import managers.WaveManager;
 import managers.ProjectileManager;
 import objects.PathPoint;
 import objects.Tower;
 import ui.GameBar;
-import static helpz.Constants.Tiles.GRASS_TILE;
+import static helpz.SaveWave.createWaveFile;
 
 
 public class Playing extends GameScene implements SceneMethods{
@@ -26,6 +28,7 @@ public class Playing extends GameScene implements SceneMethods{
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
     private TowerManager towerManager;
+    private WaveManager waveManager;
     private ProjectileManager projectileManager;
     private PathPoint start, end;
     private Tower selectedTower;
@@ -38,8 +41,9 @@ public class Playing extends GameScene implements SceneMethods{
 
         enemyManager = new EnemyManager(this, start, end);
         towerManager = new TowerManager(this);
+        waveManager = new WaveManager(this);
         projectileManager = new ProjectileManager(this);
-
+        //createWaveFile("1.wave");
     }
 
 
@@ -186,4 +190,7 @@ public class Playing extends GameScene implements SceneMethods{
         return enemyManager;
     }
 
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
 }

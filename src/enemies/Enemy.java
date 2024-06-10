@@ -1,10 +1,11 @@
 package enemies;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import static helpz.Constants.Direction.*;
 
-public abstract class Enemy {
+public abstract class Enemy implements Serializable{
     protected float x, y;
     protected Rectangle bounds;
     protected int health;
