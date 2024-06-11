@@ -15,13 +15,15 @@ public class SaveWave {
 
     public static void createWaveFile(String name) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        for (int i = 0; i < 9; i++){
-            Enemy e = new Red(0, 0, 0);
-            enemies.add(e);
+        for (int i = 0; i < 20; i++){
+            Enemy r = new Red(0, 0, 0);
+            enemies.add(r);
         }
 
-        Enemy b = new Blue(0, 0, 1);
-        enemies.add(b);
+        for (int i = 0; i < 20; i++){
+            Enemy b = new Blue(0, 0, 0);
+            enemies.add(b);
+        }
 
         try (FileOutputStream fos = new FileOutputStream(path + name);
             ObjectOutputStream oos = new ObjectOutputStream(fos)) {

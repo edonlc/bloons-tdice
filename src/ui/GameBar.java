@@ -6,11 +6,12 @@ import static main.GameStates.SetGameState;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 
 import helpz.Constants.Towers;
 import objects.Tower;
 import scenes.Playing;
-
+import events.Wave;
 
 public class GameBar extends Bar{
 
@@ -23,9 +24,12 @@ public class GameBar extends Bar{
 
     private Tower displayedTower;
 
+    private DecimalFormat formatter;
+
     public GameBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
+        formatter = new DecimalFormat("0.0");
         
         initButtons();
     }
@@ -69,6 +73,38 @@ public class GameBar extends Bar{
 
         // display das torres
         drawDisplayedTower(g);
+
+        // info das waves
+        drawWaveInfo(g);
+    }
+
+    private void drawWaveInfo(Graphics g) {
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+        drawWaveTimerInfo(g);
+        drawEnemiesLeftInfo(g);
+        drawWavesLeftInfo(g);
+    }
+
+    private void drawEnemiesLeftInfo(Graphics g) {
+        int remaining = playing.getEnemyManager().getAmountOfAliveEnemies();
+        g.drawString("Enemies Left: " + remaining, 450, 740);
+    }
+
+    private void drawWavesLeftInfo(Graphics g) {
+        int current = playing.getWaveManager().getWaveIndex();
+        int size = playing.getWaveManager().getWaves().size();
+        g.drawString("Wave " + (current + 1) + "/" + size, 470, 710);
+    }
+
+    private void drawWaveTimerInfo(Graphics g) {
+        if(playing.getWaveManager().isWaveTimerStarted()){ 
+            g.setColor(Color.black);
+            float timeLeft = playing.getWaveManager().getTimeLeft();
+            //float timeLeft = 123.456f;
+            String formatedText = formatter.format(timeLeft);
+
+            g.drawString("Next Wave in: " + formatedText + "s", 420, 670);
+        }
     }
 
     private void drawDisplayedTower(Graphics g) {

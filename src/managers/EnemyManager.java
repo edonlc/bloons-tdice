@@ -49,31 +49,11 @@ public class EnemyManager {
 
     public void update() {
 
-        updateWaveManager();
-        if(isTimeForNewEnemy()) {
-            spawnEnemy();
-        }
-
         for (Enemy e : enemies)
             if (e.isAlive())
                 updateEnemyMove(e);
     }
 
-    private void updateWaveManager() {
-        playing.getWaveManager().update();
-    }
-
-    private void spawnEnemy() {
-        addEnemy(playing.getWaveManager().getNextEnemy());
-    }
-
-    private boolean isTimeForNewEnemy() {
-        if(playing.getWaveManager().isTimeForNewEnemy()) {
-            if(playing.getWaveManager().isThereMoreEnemies())
-                return true;
-        }
-        return false;
-    }
 
     public void updateEnemyMove(Enemy e) {
 
@@ -163,6 +143,10 @@ public class EnemyManager {
         return 0;
     }
 
+    public void spawnEnemy(Enemy nextEnemy) {
+        addEnemy(nextEnemy);
+    }
+
     public void addEnemy(Enemy enemy) {
         enemy.setPos(start.getxCord() * 32, start.getyCord() * 32);
         enemies.add(enemy);
@@ -201,4 +185,14 @@ public class EnemyManager {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+
+    public int getAmountOfAliveEnemies() {
+        int size = 0;
+        for(Enemy e : enemies)
+            if(e.isAlive())
+                size++;
+        return size;
+    }
+
+
 }
