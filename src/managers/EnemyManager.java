@@ -3,12 +3,9 @@ package managers;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-import enemies.Blue;
 import enemies.Enemy;
-import enemies.Red;
 import helpz.LoadSave;
 import objects.PathPoint;
 import scenes.Playing;
@@ -199,5 +196,8 @@ public class EnemyManager{
         playing.rewardPlayer(enemyType);
     }
 
+    public void reset() {
+		enemies.clear();
+	}
 
 }

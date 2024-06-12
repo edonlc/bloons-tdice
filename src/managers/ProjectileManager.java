@@ -146,4 +146,10 @@ public class ProjectileManager {
         return 0;
     }
 
+    public void reset() {
+		projectiles.clear();
+
+		projectileId = 0;
+	}
+
 }

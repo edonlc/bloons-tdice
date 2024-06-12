@@ -36,6 +36,15 @@ public class GameBar extends Bar{
         loadBananaImg();
         loadHeartImg();
     }
+
+    public void resetEverything() {
+		lives = 10;
+		towerPriceType = 0;
+		showTowerPrice = false;
+		banana = 100;
+		selectedTower = null;
+		displayedTower = null;
+	}
     
     private void initButtons(){
         bMenu = new MyButton("Menu", 2, 645, 100, 30);

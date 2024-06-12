@@ -102,4 +102,15 @@ public class WaveManager {
         return waveIndex;
     }
 
+    public void reset() {
+		waves.clear();
+		createWaves();
+		enemyIndex = 0;
+		waveIndex = 0;
+		waveStartTimer = false;
+		waveTickTimeOver = false;
+		waveTick = 0;
+		enemySpawnTick = enemySpawnTickLimit;
+	}
+
 }
