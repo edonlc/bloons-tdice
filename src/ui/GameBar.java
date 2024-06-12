@@ -6,8 +6,10 @@ import static main.GameStates.SetGameState;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
+import helpz.LoadSave;
 import helpz.Constants.Towers;
 import objects.Tower;
 import scenes.Playing;
@@ -26,12 +28,19 @@ public class GameBar extends Bar{
 
     private DecimalFormat formatter;
 
+    private int banana = 100;
+    private BufferedImage bananaImg;
+
+    private boolean showTowerPrice;
+    private int towerPriceType;
+
     public GameBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
         formatter = new DecimalFormat("0.0");
         
         initButtons();
+        loadBananaImg();
     }
     
     private void initButtons(){
@@ -76,9 +85,61 @@ public class GameBar extends Bar{
 
         // info das waves
         drawWaveInfo(g);
+
+        // dinheiro
+        drawBananaAmount(g);
+
+        // preço das torres
+        if (showTowerPrice)
+            drawTowerPrice(g);
     }
 
+    private void drawTowerPrice(Graphics g) {
+    g.setColor(Color.getHSBColor(37, 62, 79));
+    g.fillRect(280, 650, 120, 50);
+    g.setColor(Color.black);
+    g.drawRect(280, 650, 120, 50);
+
+
+    g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+    g.drawString("" + getTowerPriceName(), 285, 665);
+    g.drawString("Bananas: $" + getTowerPricePrice(), 285, 685);
+
+    // mensagem - sem dinheiro suficiente
+    if(isTowerCostHigherBanana()) {
+        g.setColor(Color.getHSBColor(25, 65, 70));
+        g.drawString("NO BANANAS!", 285, 725);
+    }
+
+    }
+
+    private boolean isTowerCostHigherBanana() {
+        return getTowerPricePrice() > banana;
+    }
+
+    private String getTowerPriceName() {
+        return helpz.Constants.Towers.GetName(towerPriceType);
+    }
+
+    private int getTowerPricePrice() {
+        return helpz.Constants.Towers.GetTowerPrice(towerPriceType);
+    }
+
+    private void loadBananaImg(){
+        bananaImg = LoadSave.getSpriteAtlas().getSubimage(32*8, 32*2, 32, 32);
+    }
+
+    private void drawBananaAmount(Graphics g) {
+        g.setColor(Color.getHSBColor(25, 62, 70));
+        if (bananaImg != null) {
+            g.drawImage(bananaImg, 100, 700, 64, 64, null);
+        }
+        g.drawString("$" +banana, 160, 740);
+    }
+
+
     private void drawWaveInfo(Graphics g) {
+        g.setColor(Color.black);
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         drawWaveTimerInfo(g);
         drawEnemiesLeftInfo(g);
@@ -87,23 +148,21 @@ public class GameBar extends Bar{
 
     private void drawEnemiesLeftInfo(Graphics g) {
         int remaining = playing.getEnemyManager().getAmountOfAliveEnemies();
-        g.drawString("Enemies Left: " + remaining, 450, 740);
+        g.drawString("Enemies Left: " + remaining, 450, 790);
     }
 
     private void drawWavesLeftInfo(Graphics g) {
         int current = playing.getWaveManager().getWaveIndex();
         int size = playing.getWaveManager().getWaves().size();
-        g.drawString("Wave " + (current + 1) + "/" + size, 470, 710);
+        g.drawString("Wave " + (current + 1) + "/" + size, 470, 770);
     }
 
     private void drawWaveTimerInfo(Graphics g) {
         if(playing.getWaveManager().isWaveTimerStarted()){ 
-            g.setColor(Color.black);
             float timeLeft = playing.getWaveManager().getTimeLeft();
-            //float timeLeft = 123.456f;
             String formatedText = formatter.format(timeLeft);
 
-            g.drawString("Next Wave in: " + formatedText + "s", 420, 670);
+            g.drawString("Next Wave in: " + formatedText + "s", 420, 750);
         }
     }
 
@@ -136,6 +195,9 @@ public class GameBar extends Bar{
         else {
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
+                    if(!isMoneyEnough(b.getId()))
+                        return;
+                        
                     selectedTower = new Tower(0, 0, -1, b.getId());
                     playing.setSelectedTower(selectedTower);
                     return;
@@ -144,8 +206,13 @@ public class GameBar extends Bar{
         }
     }
 
+    private boolean isMoneyEnough(int towerType) {
+        return banana >= helpz.Constants.Towers.GetTowerPrice(towerType);
+    }
+
     public void mouseMoved(int x, int y) {
         bMenu.setMouseOver(false);
+        showTowerPrice = false;
         for(MyButton b : towerButtons)
             b.setMouseOver(false);
 
@@ -155,6 +222,8 @@ public class GameBar extends Bar{
             for(MyButton b : towerButtons)
                 if (b.getBounds().contains(x, y)) { 
                 b.setMouseOver(true);
+                showTowerPrice = true;
+                towerPriceType = b.getId();
                 return;
                 }
         }
@@ -176,6 +245,14 @@ public class GameBar extends Bar{
         bMenu.resetBooleans();
         for (MyButton b : towerButtons)
             b.resetBooleans();
+    }
+
+    public void payForTower(int towerType) {
+        this.banana -= helpz.Constants.Towers.GetTowerPrice(towerType);
+    }
+
+    public void addBanana(int getReward) {
+        this.banana += getReward;
     }
 
 

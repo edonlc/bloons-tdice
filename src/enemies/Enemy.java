@@ -3,6 +3,8 @@ package enemies;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
+import managers.EnemyManager;
+
 import static helpz.Constants.Direction.*;
 
 public abstract class Enemy implements Serializable{
@@ -17,12 +19,14 @@ public abstract class Enemy implements Serializable{
     protected boolean alive = true;
     protected int slowEnemyLimit = 120;
     protected int slowEnemy = slowEnemyLimit;
+    protected EnemyManager enemyManager;
 
-    public Enemy(float x, float y, int ID, int enemyType) {
+    public Enemy(float x, float y, int ID, int enemyType, EnemyManager enemyManager) {
         this.x = x;
         this.y = y;
         this.ID = ID;
         this.enemyType = enemyType;
+        this.enemyManager = enemyManager;
         this.bounds = new Rectangle((int) x, (int) y, 32, 32);
         lastDir = -1;
         setStartHealth();
@@ -35,8 +39,10 @@ public abstract class Enemy implements Serializable{
 
     public void damage(int dmg) {
         this.health -= dmg;
-        if (health <= 0)
+        if (health <= 0) {
             alive = false;
+            enemyManager.rewardPlayer(enemyType);
+        }
     }
 
     public void kill() {

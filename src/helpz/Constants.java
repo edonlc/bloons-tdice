@@ -12,12 +12,22 @@ public class Constants {
         public static final int RED = 0;
         public static final int BLUE = 1;
 
+        public static int GetReward(int enemyType) {
+            switch(enemyType) {
+                case RED:
+                    return 5;
+                case BLUE:
+                    return 8;
+                }
+                return 0;
+        }
+
         public static float GetSpeed(int enemyType) {
             switch(enemyType) {
             case RED:
-                return 0.5f;
+                return 0.8f;
             case BLUE:
-                return 0.7f;
+                return 1.1f;
             }
             return 0;
         }
@@ -25,9 +35,9 @@ public class Constants {
         public static int GetStartHealth(int enemyType) {
             switch (enemyType) {
                 case RED:
-                    return 10;
-                case BLUE:
                     return 20;
+                case BLUE:
+                    return 30;
             }
             return 0;
         }
@@ -48,22 +58,34 @@ public class Constants {
         public static final int DART_MONKEY_LV3 = 5;
         public static final int ICE_MONKEY_LV3 = 6;
 
+        public static int GetTowerPrice(int towerType) {
+            switch (towerType) {
+                case DART_MONKEY:
+                    return 45;
+                case ICE_MONKEY:
+                    return 50;
+                case TACK_SHOOTER:
+                    return 65;
+                }
+                return 0;
+        }
+
         public static String GetName(int towerType) {
             switch (towerType) {
             case DART_MONKEY:
-                return "Dart Monkey - 1";
+                return "Dart Monkey";
             case DART_MONKEY_LV2:
-                return "Dart Monkey - 2";
+                return "Dart Monkey";
             case DART_MONKEY_LV3:
-                return "Dart Monkey - 3";
+                return "Dart Monkey";
             case ICE_MONKEY:
-                return "Ice Monkey - 1";
+                return "Ice Monkey";
             case ICE_MONKEY_LV2:
-                return "Ice Monkey - 2";
+                return "Ice Monkey";
             case ICE_MONKEY_LV3:
-                return "Ice Monkey - 3";
+                return "Ice Monkey";
             case TACK_SHOOTER:
-                return "Tack Shooter - 1";
+                return "Tack Shooter";
             }
             return "";
         }

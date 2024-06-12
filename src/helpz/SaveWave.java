@@ -12,11 +12,13 @@ import enemies.*;
 public class SaveWave {
     private static final String path = "arq/waves/";
     
+    // PRECISA ADICIONAR O PARAMETRO ENEMYMANAGER, QUE AGORA FICA NO CONSTRUTOR DOS ENEMIES
+    // RECRIAR AS WAVES
 
     public static void createWaveFile(String name) {
         ArrayList<Enemy> enemies = new ArrayList<>();
         for (int i = 0; i < 20; i++){
-            Enemy r = new Red(0, 0, 0);
+            Enemy r = new Red(0, 0, 0,);
             enemies.add(r);
         }
 

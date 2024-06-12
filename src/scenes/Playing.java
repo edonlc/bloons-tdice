@@ -180,7 +180,11 @@ public class Playing extends GameScene implements SceneMethods{
                 if(isTileGrass(mouseX, mouseY)) {
                     if(getTowerAt(mouseX, mouseY) == null) {
                         towerManager.addTower(selectedTower, mouseX, mouseY);
+
+                        removeBanana(selectedTower.getTowerType());
+
                         selectedTower = null;
+
                     }
                 }
 
@@ -191,6 +195,11 @@ public class Playing extends GameScene implements SceneMethods{
         }
     }
     
+
+    private void removeBanana(int towerType) {
+        bottomBar.payForTower(towerType);
+    }
+
 
     private Tower getTowerAt(int x, int y) {
         return towerManager.getTowerAt(x, y);
@@ -240,6 +249,10 @@ public class Playing extends GameScene implements SceneMethods{
 
     @Override
     public void mouseDragged(int x, int y) {
+    }
+
+    public void rewardPlayer(int enemyType) {
+        bottomBar.addBanana(helpz.Constants.Enemies.GetReward(enemyType));
     }
 
     public TowerManager getTowerManager() {

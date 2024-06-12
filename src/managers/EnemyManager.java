@@ -194,5 +194,9 @@ public class EnemyManager {
         return size;
     }
 
+    public void rewardPlayer(int enemyType) {
+        playing.rewardPlayer(enemyType);
+    }
+
 
 }
