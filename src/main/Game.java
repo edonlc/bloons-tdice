@@ -31,6 +31,7 @@ public class Game extends JFrame implements Runnable{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        setTitle("Chimps vs Balloons");
         add(gameScreen);
         pack();
         setVisible(true);

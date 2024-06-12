@@ -59,6 +59,13 @@ public class ProjectileManager {
         if (xDist < 0)
             rotate+= 180;
 
+        for (Projectile p : projectiles)
+            if (!p.isActive())
+                if(p.getProjectileType() == type) {
+                    p.reuse(t.getX() + 16, t.getY() + 16, xSpeed, ySpeed, t.getDmg(), rotate);
+                    return;
+                }
+
         projectiles.add(new Projectile(t.getX() + 16, t.getY() + 16, projectileId++, type, t.getDmg(), rotate, xSpeed, ySpeed));
     }
 
@@ -72,6 +79,8 @@ public class ProjectileManager {
                 g2d.drawImage(projectileImgs[p.getProjectileType()], -16, -16, null);
                 g2d.rotate(Math.toRadians(90));
                 g2d.translate(-p.getPos().x, -p.getPos().y);
+            } else {
+                g2d.drawImage(projectileImgs[p.getProjectileType()], (int) p.getPos().x - 16, (int) p.getPos().y - 16, null);
             }
 
     }
@@ -82,10 +91,19 @@ public class ProjectileManager {
                 p.move();
                 if(isProjectileHittingEnemy(p)) {
                     p.setActive(false);
-                } else {
-
+                } else if (isProjectileOut(p)){
+                    p.setActive(false);
                 }
             }
+    }
+
+    private boolean isProjectileOut(Projectile p) {
+        if(p.getPos().x >= 0)
+            if(p.getPos().x <= 640)
+                if(p.getPos().y >= 0)
+                    if(p.getPos().y <= 640)
+                        return false;
+        return true;
     }
 
     private boolean isProjectileHittingEnemy(Projectile p) {
