@@ -5,13 +5,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.tools.ToolProvider;
-
 import enemies.Enemy;
 import helpz.LoadSave;
 import objects.Tower;
-
-import static helpz.Constants.Towers.*;
 
 public class TowerManager {
 

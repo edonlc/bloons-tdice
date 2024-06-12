@@ -15,6 +15,11 @@ public class Bar {
 
     }
 
+    public void draw(Graphics g) {
+        g.setColor(new Color(102, 111, 63));
+        g.fillRect(x, y, width, height);
+    }
+
     protected void drawButtonFeedback(Graphics g, MyButton b) {
         //Mouse Over
             if(b.isMouseOver())

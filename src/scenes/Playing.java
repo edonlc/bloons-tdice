@@ -5,7 +5,6 @@ import static helpz.Constants.Tiles.GRASS_TILE;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import enemies.Enemy;
@@ -61,7 +60,7 @@ public class Playing extends GameScene implements SceneMethods{
     }
 
     public void update(){
-
+        
         if(!gamePaused) {
         
         waveManager.update();
@@ -141,20 +140,12 @@ public class Playing extends GameScene implements SceneMethods{
         towerManager.draw(g);
         projectileManager.draw(g);
         drawSelectedTower(g);
-
-        drawWaveInfos(g);
     }    
-
-    private void drawWaveInfos(Graphics g) {
-
-    }
-
 
     private void drawSelectedTower(Graphics g) {
         if (selectedTower != null)
             g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()], mouseX, mouseY, null);
     }
-
 
     private void drawLevel(Graphics g) {
         for (int y = 0; y < lvl.length; y++) {

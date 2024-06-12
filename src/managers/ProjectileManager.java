@@ -53,11 +53,15 @@ public class ProjectileManager {
         if(t.getY() > e.getY())
             ySpeed *= -1;
 
-        float arcValue = (float) Math.atan(yDist / (float) xDist);
-        float rotate = (float) Math.toDegrees(arcValue);
+        float rotate = 0;
 
-        if (xDist < 0)
-            rotate+= 180;
+        if (type == DART ||type == DART_T2 ||type == DART_T3 ||type == ICE ||type == ICE_T2 ||type == ICE_T3) {
+			float arcValue = (float) Math.atan(yDist / (float) xDist);
+			rotate = (float) Math.toDegrees(arcValue);
+
+			if (xDist < 0)
+				rotate += 180;
+		}
 
         for (Projectile p : projectiles)
             if (!p.isActive())
@@ -92,14 +96,6 @@ public class ProjectileManager {
         return false;
     }
 
-    private boolean isProjectileOutsideBounds(Projectile p) {
-        if (p.getPos().x >= 0)
-            if (p.getPos().x <= 640)
-                if (p.getPos().y >= 0)
-                    if (p.getPos().y <= 800)
-                        return false;
-        return true;
-    }
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -111,9 +107,7 @@ public class ProjectileManager {
                 g2d.drawImage(projectileImgs[p.getProjectileType()], -16, -16, null);
                 g2d.rotate(Math.toRadians(90));
                 g2d.translate(-p.getPos().x, -p.getPos().y);
-            } else {
-                g2d.drawImage(projectileImgs[p.getProjectileType()], (int) p.getPos().x - 16, (int) p.getPos().y - 16, null);
-            }
+            } 
 
     }
 
@@ -124,8 +118,6 @@ public class ProjectileManager {
                 if(isProjectileHittingEnemy(p)) {
                     p.setActive(false);
                 } else if (isProjectileOut(p)){
-                    p.setActive(false);
-                } else if (isProjectileOutsideBounds(p)) {
                     p.setActive(false);
                 }
             }

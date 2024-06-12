@@ -5,12 +5,10 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class MyButton {
-    public int x, y, width, height, id;
     private String text;
-
+    public int x, y, width, height, id;
     private Rectangle bounds;
-    private boolean mouseOver;
-    private boolean mousePressed;
+    private boolean mouseOver, mousePressed;
 
     // Botões Normais
     public MyButton(String text, int x, int y, int width, int height){
@@ -20,8 +18,7 @@ public class MyButton {
         this.width = width;
         this.height = height;
         this.id = -1;
-
-        initBounds();
+        this.bounds = new Rectangle(x, y, width, height);
     }
 
     // Botões Para Tiles
@@ -32,20 +29,12 @@ public class MyButton {
         this.width = width;
         this.height = height;
         this.id = id;
-
-        initBounds();
-    }
-
-    private void initBounds() {
         this.bounds = new Rectangle(x, y, width, height);
     }
 
     public void draw(Graphics g) {
-
         drawBody(g);
-
         drawBorder(g);
-
         drawText(g);
     }
 
@@ -78,6 +67,7 @@ public class MyButton {
         this.mousePressed = false;
     }
 
+    // Gets, Sets e Checks
     public void setText(String text) {
         this.text = text;
     }
@@ -90,7 +80,6 @@ public class MyButton {
         this.mouseOver = mouseOver;
     }
 
-
     public boolean isMouseOver() {
         return mouseOver;
     }
@@ -98,7 +87,6 @@ public class MyButton {
     public boolean isMousePressed() {
         return mousePressed;
     }
-        
 
     public Rectangle getBounds() {
         return bounds;

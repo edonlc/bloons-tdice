@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import exceptions.TileOutOfScreenException;
 import helpz.LoadSave;
 import main.Game;
 import objects.PathPoint;
@@ -83,10 +84,14 @@ public class Editing extends GameScene implements SceneMethods{
         drawSelect = true;
     }
 
-    private void changeTile(int x, int y){ 
+    private void changeTile(int x, int y) throws TileOutOfScreenException{ 
         if(selectedTile != null) {
             int tileX = x / 32;
             int tileY = y / 32;
+            if(tileX < 0 || tileX >= lvl[0].length || tileY < 0 || tileY >= lvl.length) {
+                throw new TileOutOfScreenException("Index " + tileX + ", " + tileY + " out of bounds for level size.");
+            }
+
             if(selectedTile.getId() >= 0) {
                 if(lastTileX == tileX &&lastTileY == tileY && lastTileId == selectedTile.getId())
                     return;
@@ -112,7 +117,12 @@ public class Editing extends GameScene implements SceneMethods{
         if(y >= 640) {
             editbar.mouseClicked(x, y);
         } else {
-            changeTile(mouseX, mouseY);
+            try{
+                changeTile(x, y);
+            }catch (TileOutOfScreenException e) {
+                x = 0;
+                y = 0;
+            }
         }
     }
 
@@ -142,11 +152,17 @@ public class Editing extends GameScene implements SceneMethods{
 
     @Override
     public void mouseDragged(int x, int y) {
-        if(y >= 640 ){
-
-        } else {
+        try {
             changeTile(x, y);
+        } catch (TileOutOfScreenException e) {
+            x = 0;
+            y = 0;
         }
+        // if(y >= 640 ){
+
+        // } else {
+        //     changeTile(x, y);
+        // }
     }
 
     public void keyPressed(KeyEvent e) {

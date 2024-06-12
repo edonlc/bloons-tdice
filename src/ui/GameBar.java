@@ -14,31 +14,18 @@ import helpz.LoadSave;
 import helpz.Constants.Towers;
 import objects.Tower;
 import scenes.Playing;
-import events.Wave;
 
 public class GameBar extends Bar{
-
     private Playing playing;
-    private MyButton bMenu, bPause;
-
+    private MyButton bMenu, bPause, sellTower, upgradeTower;
     private MyButton[] towerButtons;
-
-    private Tower selectedTower;
-
-    private Tower displayedTower;
-
+    private Tower selectedTower, displayedTower;
     private DecimalFormat formatter;
-
-    private MyButton sellTower, upgradeTower;
-
     private int banana = 1000;
-    private BufferedImage bananaImg;
-
+    private BufferedImage bananaImg, heartImg;
     private boolean showTowerPrice;
     private int towerPriceType;
-
     private int lives = 10;
-    private BufferedImage heartImg;
 
     public GameBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
@@ -69,26 +56,17 @@ public class GameBar extends Bar{
         }
     }
 
-    public void removeOneLife() {
-        lives --;
-        if (lives <= 0)
-            SetGameState(GAMEOVER);
+    // Carrega imagens
+    private void loadBananaImg(){
+        bananaImg = LoadSave.getSpriteAtlas().getSubimage(32*8, 32*2, 32, 32);
     }
 
-    private void drawButtons(Graphics g) {
-        bMenu.draw(g);
-        bPause.draw(g);
 
-        for(MyButton b : towerButtons){
-
-            g.setColor(Color.getHSBColor(40, 60, 82));
-            g.fillRect(b.x, b.y, b.width, b.height);
-            g.drawImage(playing.getTowerManager().getTowerImgs()[b.getId()], b.x, b.y, b.width, b.height, null);
-            drawButtonFeedback(g, b);
-
-        }
+    private void loadHeartImg(){
+        heartImg = LoadSave.getSpriteAtlas().getSubimage(32*9, 32*1, 32, 32);
     }
 
+    //Metódos de desenhar
     public void draw(Graphics g) {
 
         //background
@@ -123,39 +101,18 @@ public class GameBar extends Bar{
 
     }
 
-    private void drawTowerPrice(Graphics g) {
-    g.setColor(Color.getHSBColor(37, 62, 79));
-    g.fillRect(280, 650, 120, 50);
-    g.setColor(Color.black);
-    g.drawRect(280, 650, 120, 50);
+    private void drawButtons(Graphics g) {
+        bMenu.draw(g);
+        bPause.draw(g);
 
+        for(MyButton b : towerButtons){
 
-    g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
-    g.drawString("" + getTowerPriceName(), 285, 665);
-    g.drawString("Bananas: $" + getTowerPricePrice(), 285, 685);
+            g.setColor(Color.getHSBColor(40, 60, 82));
+            g.fillRect(b.x, b.y, b.width, b.height);
+            g.drawImage(playing.getTowerManager().getTowerImgs()[b.getId()], b.x, b.y, b.width, b.height, null);
+            drawButtonFeedback(g, b);
 
-    // mensagem - sem dinheiro suficiente
-    if(isTowerCostHigherBanana()) {
-        g.setColor(Color.getHSBColor(25, 65, 70));
-        g.drawString("NO BANANAS!", 285, 725);
-    }
-
-    }
-
-    private boolean isTowerCostHigherBanana() {
-        return getTowerPricePrice() > banana;
-    }
-
-    private String getTowerPriceName() {
-        return helpz.Constants.Towers.GetName(towerPriceType);
-    }
-
-    private int getTowerPricePrice() {
-        return helpz.Constants.Towers.GetTowerPrice(towerPriceType);
-    }
-
-    private void loadBananaImg(){
-        bananaImg = LoadSave.getSpriteAtlas().getSubimage(32*8, 32*2, 32, 32);
+        }
     }
 
     private void drawBananaAmount(Graphics g) {
@@ -166,8 +123,23 @@ public class GameBar extends Bar{
         g.drawString("$" +banana, 160, 725);
     }
 
-    private void loadHeartImg(){
-        heartImg = LoadSave.getSpriteAtlas().getSubimage(32*9, 32*1, 32, 32);
+    private void drawTowerPrice(Graphics g) {
+        g.setColor(Color.getHSBColor(37, 62, 79));
+        g.fillRect(280, 650, 120, 50);
+        g.setColor(Color.black);
+        g.drawRect(280, 650, 120, 50);
+
+
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+        g.drawString("" + getTowerPriceName(), 285, 665);
+        g.drawString("Bananas: $" + getTowerPricePrice(), 285, 685);
+
+        // mensagem - sem dinheiro suficiente
+        if(isTowerCostHigherBanana()) {
+            g.setColor(Color.getHSBColor(25, 65, 70));
+            g.drawString("NO BANANAS!", 285, 725);
+        }
+
     }
 
     private void drawLivesAmount(Graphics g) {
@@ -178,9 +150,6 @@ public class GameBar extends Bar{
         }
         g.drawString("" +lives +" hearts", 160, 750);
     }
-
-
-
     private void drawWaveInfo(Graphics g) {
         g.setColor(Color.getHSBColor(37, 62, 79));
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
@@ -237,17 +206,6 @@ public class GameBar extends Bar{
         }
     }
 
-    private int getUpgradeAmount(Tower displayedTower) {
-		return (int) (helpz.Constants.Towers.GetTowerPrice(displayedTower.getTowerType()) * 1.5f);
-	}
-
-	private int getSellAmount(Tower displayedTower) {
-		int upgradeCost = (displayedTower.getTier() - 1) * getUpgradeAmount(displayedTower);
-		upgradeCost *= 0.5f;
-
-		return helpz.Constants.Towers.GetTowerPrice(displayedTower.getTowerType()) / 2 + upgradeCost;
-	}
-
     private void drawDisplayedTowerRange(Graphics g) {
         g.setColor(Color.white);
         g.drawOval(displayedTower.getX() + 16 - (int) (displayedTower.getRange()*2)/2, displayedTower.getY() + 16 - (int) (displayedTower.getRange()*2)/2, (int) displayedTower.getRange()*2, (int) displayedTower.getRange()*2);
@@ -275,6 +233,12 @@ public class GameBar extends Bar{
 
 	}
 
+    public void removeOneLife() {
+        lives --;
+        if (lives <= 0)
+            SetGameState(GAMEOVER);
+    }
+
     
     private void togglePause() {
         playing.setGamePaused(!playing.isGamePaused());
@@ -283,6 +247,10 @@ public class GameBar extends Bar{
             bPause.setText("Unpause");
         else
             bPause.setText("Pause");
+    }
+
+    private boolean isMoneyEnough(int towerType) {
+        return banana >= helpz.Constants.Towers.GetTowerPrice(towerType);
     }
 
 	public void mouseClicked(int x, int y) {
@@ -312,11 +280,6 @@ public class GameBar extends Bar{
                 }
             }
         }
-    }
-
-
-    private boolean isMoneyEnough(int towerType) {
-        return banana >= helpz.Constants.Towers.GetTowerPrice(towerType);
     }
 
     public void mouseMoved(int x, int y) {
@@ -397,5 +360,29 @@ public class GameBar extends Bar{
     public int getLives() {
         return lives;
     }
+    
+    private boolean isTowerCostHigherBanana() {
+        return getTowerPricePrice() > banana;
+    }
+
+    private String getTowerPriceName() {
+        return helpz.Constants.Towers.GetName(towerPriceType);
+    }
+
+    private int getTowerPricePrice() {
+        return helpz.Constants.Towers.GetTowerPrice(towerPriceType);
+    }
+
+
+    private int getUpgradeAmount(Tower displayedTower) {
+		return (int) (helpz.Constants.Towers.GetTowerPrice(displayedTower.getTowerType()) * 1.5f);
+	}
+
+	private int getSellAmount(Tower displayedTower) {
+		int upgradeCost = (displayedTower.getTier() - 1) * getUpgradeAmount(displayedTower);
+		upgradeCost *= 0.5f;
+
+		return helpz.Constants.Towers.GetTowerPrice(displayedTower.getTowerType()) / 2 + upgradeCost;
+	}
 
 }
