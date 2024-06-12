@@ -26,10 +26,14 @@ public class ProjectileManager {
 
     private void importImgs() {
         BufferedImage atlas = LoadSave.getSpriteAtlas();
-        projectileImgs = new BufferedImage[2];
+        projectileImgs = new BufferedImage[6];
 
         projectileImgs[0] = atlas.getSubimage(3 * 32, 32, 32, 32);
-        projectileImgs[1] = atlas.getSubimage(6*32, 0, 32, 32);
+        projectileImgs[1] = atlas.getSubimage(4 * 32, 32, 32, 32);
+        projectileImgs[2] = atlas.getSubimage(5 * 32, 32, 32, 32);
+        projectileImgs[3] = atlas.getSubimage(6*32, 0, 32, 32);
+        projectileImgs[4] = atlas.getSubimage(6*32, 32, 32, 32);
+        projectileImgs[5] = atlas.getSubimage(6*32, 2*32, 32, 32);
     }
 
     public void newProjectile(Tower t, Enemy e) {
@@ -89,7 +93,7 @@ public class ProjectileManager {
             if (e.isAlive())
                 if(e.getBounds().contains(p.getPos())) {
                     e.damage(p.getDmg(), playing.getEnemyManager()); 
-                    if(p.getProjectileType() == ICE)
+                    if(p.getProjectileType() == ICE || p.getProjectileType() == ICE_T2 || p.getProjectileType() == ICE_T3)
                         e.slow();
                     return true;
             }
@@ -101,10 +105,18 @@ public class ProjectileManager {
         switch (t.getTowerType()) {
         case DART_MONKEY:
             return DART;
+        case DART_MONKEY_LV2:
+            return DART_T2;
+        case DART_MONKEY_LV3:
+            return DART_T3;
         case ICE_MONKEY:
             return ICE;
+        case ICE_MONKEY_LV2:
+            return ICE_T2;
+        case ICE_MONKEY_LV3:
+            return ICE_T3;
         case TACK_SHOOTER:
-            return DART;
+            return DART_T3;
         }
         return 0;
     }

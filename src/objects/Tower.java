@@ -1,8 +1,10 @@
 package objects;
 
+import static helpz.Constants.Towers.*;
+
 public class Tower {
 
-    private int x, y, id, towerType, cdTick, dmg;
+    private int x, y, id, towerType, cdTick, dmg, tier;
     private float range, cooldown;
     
 
@@ -11,9 +13,46 @@ public class Tower {
         this.y = y;
         this.id = id;
         this.towerType = towerType;
+        switch (towerType) {
+            case TACK_SHOOTER:
+                this.tier = 3;
+            default:
+                this.tier = 1;
+        }
         setDefaultDmg();
         setDefaultRange();
         setDefaultCooldown();
+    }
+
+    public void upgradeTower() {
+        this.tier++;
+        switch (towerType) {
+            case DART_MONKEY:
+                towerType += 3;
+                range += 20;
+                dmg += 2;
+                cooldown -= 5;
+                break;
+            case DART_MONKEY_LV2:
+                towerType += 2;
+                range += 20;
+                dmg += 2;
+                cooldown -= 5;
+                break;
+            case ICE_MONKEY:
+                towerType += 3;
+                range += 20;
+                cooldown -= 5;
+                break;
+            case ICE_MONKEY_LV2:
+                towerType += 2;
+                range += 20;
+                cooldown -= 5;
+                break;
+            case TACK_SHOOTER:
+                break;
+            }
+
     }
 
     public void update() {
@@ -85,4 +124,7 @@ public class Tower {
         return cooldown;
     }
 
+    public int getTier() {
+        return tier;
+    }
 }

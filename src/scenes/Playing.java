@@ -32,6 +32,7 @@ public class Playing extends GameScene implements SceneMethods{
     private ProjectileManager projectileManager;
     private PathPoint start, end;
     private Tower selectedTower;
+    private int goldTick = 0;
 
     public Playing(Game game) {
         super(game);
@@ -60,6 +61,10 @@ public class Playing extends GameScene implements SceneMethods{
 
     public void update(){
         waveManager.update();
+        
+        goldTick++;
+        if(goldTick % (60 * 3) == 0)
+            bottomBar.addBanana(1);
 
         if(isAllEnemiesDead()) {
             if(isThereMoreWaves()) {
@@ -200,6 +205,14 @@ public class Playing extends GameScene implements SceneMethods{
         bottomBar.payForTower(towerType);
     }
 
+    public void upgradeTower(Tower displayedTower) {
+		towerManager.upgradeTower(displayedTower);
+
+	}
+
+	public void removeTower(Tower displayedTower) {
+		towerManager.removeTower(displayedTower);
+	}
 
     private Tower getTowerAt(int x, int y) {
         return towerManager.getTowerAt(x, y);
