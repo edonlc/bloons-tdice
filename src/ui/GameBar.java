@@ -1,5 +1,6 @@
 package ui;
 
+import static main.GameStates.GAMEOVER;
 import static main.GameStates.MENU;
 import static main.GameStates.SetGameState;
 
@@ -18,7 +19,7 @@ import events.Wave;
 public class GameBar extends Bar{
 
     private Playing playing;
-    private MyButton bMenu;
+    private MyButton bMenu, bPause;
 
     private MyButton[] towerButtons;
 
@@ -36,6 +37,9 @@ public class GameBar extends Bar{
     private boolean showTowerPrice;
     private int towerPriceType;
 
+    private int lives = 10;
+    private BufferedImage heartImg;
+
     public GameBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
@@ -43,10 +47,12 @@ public class GameBar extends Bar{
         
         initButtons();
         loadBananaImg();
+        loadHeartImg();
     }
     
     private void initButtons(){
-        bMenu = new MyButton("Menu", 2, 640, 100, 30);
+        bMenu = new MyButton("Menu", 2, 645, 100, 30);
+        bPause = new MyButton("Pause", 2, 682, 100, 30);
 
         towerButtons = new MyButton[3];
         int w = 50;
@@ -63,8 +69,15 @@ public class GameBar extends Bar{
         }
     }
 
+    public void removeOneLife() {
+        lives --;
+        if (lives <= 0)
+            SetGameState(GAMEOVER);
+    }
+
     private void drawButtons(Graphics g) {
         bMenu.draw(g);
+        bPause.draw(g);
 
         for(MyButton b : towerButtons){
 
@@ -97,6 +110,17 @@ public class GameBar extends Bar{
         // preço das torres
         if (showTowerPrice)
             drawTowerPrice(g);
+
+        // PAUSE
+        if (playing.isGamePaused()) {
+            g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+            g.setColor(Color.getHSBColor(25, 65, 70));
+            g.drawString("Game is Paused!", 117, 790);
+        }
+
+        // VIDAS
+        drawLivesAmount(g);
+
     }
 
     private void drawTowerPrice(Graphics g) {
@@ -137,14 +161,28 @@ public class GameBar extends Bar{
     private void drawBananaAmount(Graphics g) {
         g.setColor(Color.getHSBColor(25, 62, 70));
         if (bananaImg != null) {
-            g.drawImage(bananaImg, 100, 700, 64, 64, null);
+            g.drawImage(bananaImg, 110, 694, 43, 43, null);
         }
-        g.drawString("$" +banana, 160, 740);
+        g.drawString("$" +banana, 160, 725);
+    }
+
+    private void loadHeartImg(){
+        heartImg = LoadSave.getSpriteAtlas().getSubimage(32*9, 32*1, 32, 32);
+    }
+
+    private void drawLivesAmount(Graphics g) {
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+        g.setColor(Color.getHSBColor(25, 62, 70));
+        if (heartImg != null) {
+            g.drawImage(heartImg, 112, 723, 43, 43, null);
+        }
+        g.drawString("" +lives +" hearts", 160, 750);
     }
 
 
+
     private void drawWaveInfo(Graphics g) {
-        g.setColor(Color.black);
+        g.setColor(Color.getHSBColor(37, 62, 79));
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         drawWaveTimerInfo(g);
         drawEnemiesLeftInfo(g);
@@ -237,9 +275,21 @@ public class GameBar extends Bar{
 
 	}
 
+    
+    private void togglePause() {
+        playing.setGamePaused(!playing.isGamePaused());
+
+        if (playing.isGamePaused())
+            bPause.setText("Unpause");
+        else
+            bPause.setText("Pause");
+    }
+
 	public void mouseClicked(int x, int y) {
 		if (bMenu.getBounds().contains(x, y))
 			SetGameState(MENU);
+        else if (bPause.getBounds().contains(x, y))
+            togglePause();
         else {
             if (displayedTower != null) {
 				if (sellTower.getBounds().contains(x, y)) {
@@ -264,12 +314,14 @@ public class GameBar extends Bar{
         }
     }
 
+
     private boolean isMoneyEnough(int towerType) {
         return banana >= helpz.Constants.Towers.GetTowerPrice(towerType);
     }
 
     public void mouseMoved(int x, int y) {
         bMenu.setMouseOver(false);
+        bPause.setMouseOver(false);
         upgradeTower.setMouseOver(false);
         sellTower.setMouseOver(false);
         showTowerPrice = false;
@@ -278,6 +330,8 @@ public class GameBar extends Bar{
 
         if (bMenu.getBounds().contains(x, y))
             bMenu.setMouseOver(true);
+        else if (bPause.getBounds().contains(x, y))
+            bPause.setMouseOver(true);
         else {
             if (displayedTower != null) {
                 if (sellTower.getBounds().contains(x, y)) {
@@ -302,6 +356,8 @@ public class GameBar extends Bar{
     public void mousePressed(int x, int y) {
         if (bMenu.getBounds().contains(x, y))
             bMenu.setMousePressed(true);
+        else if (bPause.getBounds().contains(x, y))
+            bPause.setMousePressed(true);
         else {
             if (displayedTower != null) {
 				if (sellTower.getBounds().contains(x, y)) {
@@ -323,6 +379,7 @@ public class GameBar extends Bar{
 
     public void mouseReleased(int x, int y) {
         bMenu.resetBooleans();
+        bPause.resetBooleans();
         upgradeTower.resetBooleans();
         sellTower.resetBooleans();
         for (MyButton b : towerButtons)
@@ -337,5 +394,8 @@ public class GameBar extends Bar{
         this.banana += getReward;
     }
 
+    public int getLives() {
+        return lives;
+    }
 
 }

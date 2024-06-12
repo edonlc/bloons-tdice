@@ -68,7 +68,7 @@ public class EnemyManager{
             e.move(GetSpeed(e.getEnemyType()), e.getLastDir());
         } else if (isAtEnd(e)) {
             e.kill();
-            System.out.println("-1 Vida");
+            playing.removeOneLife();
         } else {
             setNewDirectionAndMove(e);
         }

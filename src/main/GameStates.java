@@ -2,7 +2,7 @@ package main;
 
 public enum GameStates {
 
-	PLAYING, MENU, EDITING;
+	PLAYING, MENU, EDITING, GAMEOVER;
 
 	public static GameStates gameState = MENU;
 

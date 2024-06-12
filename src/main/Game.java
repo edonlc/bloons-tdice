@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import helpz.LoadSave;
 import managers.TileManager;
 import scenes.Editing;
+import scenes.GameOver;
 import scenes.Menu;
 import scenes.Playing;
 
@@ -19,6 +20,7 @@ public class Game extends JFrame implements Runnable{
     private Menu menu;
     private Playing playing;
     private Editing editing;
+    private GameOver gameOver;
 
     private TileManager tileManager;
 
@@ -51,6 +53,7 @@ public class Game extends JFrame implements Runnable{
         menu = new Menu(this);
         playing = new Playing(this);
         editing = new Editing(this);
+        gameOver = new GameOver(this);
 
     }
 
@@ -134,6 +137,10 @@ public class Game extends JFrame implements Runnable{
 
     public Editing getEditor() {
         return editing;
+    }
+
+    public GameOver getGameOver() {
+        return gameOver;
     }
 
     public TileManager getTileManager() {

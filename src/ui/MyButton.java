@@ -78,6 +78,10 @@ public class MyButton {
         this.mousePressed = false;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public void setMousePressed (boolean mousePressed) {
         this.mousePressed = mousePressed;
     }

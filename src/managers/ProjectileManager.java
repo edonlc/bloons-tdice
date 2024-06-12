@@ -69,6 +69,38 @@ public class ProjectileManager {
         projectiles.add(new Projectile(t.getX() + 16, t.getY() + 16, projectileId++, type, t.getDmg(), rotate, xSpeed, ySpeed));
     }
 
+    
+    private boolean isProjectileOut(Projectile p) {
+        if(p.getPos().x >= 0)
+            if(p.getPos().x <= 640)
+                if(p.getPos().y >= 0)
+                    if(p.getPos().y <= 640)
+                        return false;
+        return true;
+    }
+
+    private boolean isProjectileHittingEnemy(Projectile p) {
+        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+            if (e.isAlive())
+                if(e.getBounds().contains(p.getPos())) {
+                    e.damage(p.getDmg(), playing.getEnemyManager()); 
+                    if(p.getProjectileType() == ICE || p.getProjectileType() == ICE_T2 || p.getProjectileType() == ICE_T3)
+                        e.slow();
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isProjectileOutsideBounds(Projectile p) {
+        if (p.getPos().x >= 0)
+            if (p.getPos().x <= 640)
+                if (p.getPos().y >= 0)
+                    if (p.getPos().y <= 800)
+                        return false;
+        return true;
+    }
+
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
@@ -93,31 +125,14 @@ public class ProjectileManager {
                     p.setActive(false);
                 } else if (isProjectileOut(p)){
                     p.setActive(false);
+                } else if (isProjectileOutsideBounds(p)) {
+                    p.setActive(false);
                 }
             }
     }
 
-    private boolean isProjectileOut(Projectile p) {
-        if(p.getPos().x >= 0)
-            if(p.getPos().x <= 640)
-                if(p.getPos().y >= 0)
-                    if(p.getPos().y <= 640)
-                        return false;
-        return true;
-    }
 
-    private boolean isProjectileHittingEnemy(Projectile p) {
-        for (Enemy e : playing.getEnemyManager().getEnemies()) {
-            if (e.isAlive())
-                if(e.getBounds().contains(p.getPos())) {
-                    e.damage(p.getDmg(), playing.getEnemyManager()); 
-                    if(p.getProjectileType() == ICE || p.getProjectileType() == ICE_T2 || p.getProjectileType() == ICE_T3)
-                        e.slow();
-                    return true;
-            }
-        }
-        return false;
-    }
+
 
     private int getProjectileType(Tower t){
         switch (t.getTowerType()) {

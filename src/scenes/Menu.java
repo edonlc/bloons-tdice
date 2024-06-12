@@ -3,6 +3,7 @@ package scenes;
 import java.awt.Graphics;
 
 import helpz.LoadSave;
+import java.awt.Font;
 import main.Game;
 import ui.MyButton;
 import static main.GameStates.*;
@@ -20,7 +21,7 @@ public class Menu extends GameScene implements SceneMethods {
         int x = 640 / 2 - w/2;
         int y = 300;
         int yOffset = 100;
-
+        
         bPlaying = new MyButton("Jogar", x, y, w, h);
         bEdit = new MyButton("Edit", x, y + yOffset, w, h);
         bQuit = new MyButton("Quit", x, y + yOffset * 2, w, h);
@@ -36,6 +37,7 @@ public class Menu extends GameScene implements SceneMethods {
     }
 
     private void drawButtons(Graphics g){
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         bPlaying.draw(g);
         bEdit.draw(g);
         bQuit.draw(g);

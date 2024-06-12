@@ -21,6 +21,9 @@ public class Render {
             case EDITING:
                 game.getEditor().render(g);
                 break;
+            case GAMEOVER:
+                game.getGameOver().render(g);
+                break;
             default:
                 break;
         }

@@ -33,6 +33,7 @@ public class Playing extends GameScene implements SceneMethods{
     private PathPoint start, end;
     private Tower selectedTower;
     private int goldTick = 0;
+    private boolean gamePaused = false;
 
     public Playing(Game game) {
         super(game);
@@ -60,6 +61,9 @@ public class Playing extends GameScene implements SceneMethods{
     }
 
     public void update(){
+
+        if(!gamePaused) {
+        
         waveManager.update();
         
         goldTick++;
@@ -84,6 +88,9 @@ public class Playing extends GameScene implements SceneMethods{
         enemyManager.update();
         towerManager.update();
         projectileManager.update();
+        }
+        
+        
     }
 
 
@@ -229,6 +236,11 @@ public class Playing extends GameScene implements SceneMethods{
         projectileManager.newProjectile(t, e);
     }
 
+
+    public void setGamePaused(boolean gamePaused) {
+        this.gamePaused = gamePaused;
+    }
+
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             selectedTower = null;
@@ -279,4 +291,15 @@ public class Playing extends GameScene implements SceneMethods{
     public WaveManager getWaveManager() {
         return waveManager;
     }
+
+    public boolean isGamePaused() {
+        return gamePaused;
+    }
+
+
+    public void removeOneLife() {
+        bottomBar.removeOneLife();
+    }
+
+
 }
