@@ -88,7 +88,7 @@ public class ProjectileManager {
         for (Enemy e : playing.getEnemyManager().getEnemies()) {
             if (e.isAlive())
                 if(e.getBounds().contains(p.getPos())) {
-                    e.damage(p.getDmg()); 
+                    e.damage(p.getDmg(), playing.getEnemyManager()); 
                     if(p.getProjectileType() == ICE)
                         e.slow();
                     return true;

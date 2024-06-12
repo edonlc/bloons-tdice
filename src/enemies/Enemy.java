@@ -19,14 +19,12 @@ public abstract class Enemy implements Serializable{
     protected boolean alive = true;
     protected int slowEnemyLimit = 120;
     protected int slowEnemy = slowEnemyLimit;
-    protected EnemyManager enemyManager;
 
-    public Enemy(float x, float y, int ID, int enemyType, EnemyManager enemyManager) {
+    public Enemy(float x, float y, int ID, int enemyType) {
         this.x = x;
         this.y = y;
         this.ID = ID;
         this.enemyType = enemyType;
-        this.enemyManager = enemyManager;
         this.bounds = new Rectangle((int) x, (int) y, 32, 32);
         lastDir = -1;
         setStartHealth();
@@ -37,7 +35,7 @@ public abstract class Enemy implements Serializable{
         maxHealth = health;
     }
 
-    public void damage(int dmg) {
+    public void damage(int dmg, EnemyManager enemyManager) {
         this.health -= dmg;
         if (health <= 0) {
             alive = false;

@@ -3,6 +3,7 @@ package managers;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import enemies.Blue;
@@ -15,7 +16,7 @@ import static helpz.Constants.Direction.*;
 import static helpz.Constants.Enemies.*;
 import static helpz.Constants.Tiles.*;
 
-public class EnemyManager {
+public class EnemyManager{
 
     private Playing playing;
     private BufferedImage[] enemyImgs;
